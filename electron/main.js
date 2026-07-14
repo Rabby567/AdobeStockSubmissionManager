@@ -1,5 +1,6 @@
 console.log("MAIN JS LOADED");
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { autoUpdater } = require("electron-updater");
 const path = require("path");
 const fs = require("fs");
 const { exiftool } = require("exiftool-vendored");
@@ -39,11 +40,52 @@ const startUrl = app.isPackaged
 
 if (app.isPackaged) {
     win.loadURL(startUrl);
+    autoUpdater.checkForUpdatesAndNotify();
 } else {
     win.loadURL(startUrl);
 }
 
 }
+
+
+autoUpdater.on("checking-for-update", () => {
+  console.log("Checking for updates...");
+});
+
+autoUpdater.on("update-available", (info) => {
+  console.log("Update available:", info.version);
+});
+
+autoUpdater.on("update-not-available", () => {
+  console.log("No update available");
+});
+
+autoUpdater.on("error", (err) => {
+  console.log("Update error:", err);
+});
+
+autoUpdater.on("download-progress", (progress) => {
+  console.log(
+    `Downloading ${Math.round(progress.percent)}%`
+  );
+});
+
+autoUpdater.on("update-downloaded", (info) => {
+
+  dialog.showMessageBox({
+    type: "info",
+    title: "Update Ready",
+    message: `Version ${info.version} downloaded successfully.`,
+    buttons: ["Restart Now"],
+  }).then(() => {
+
+    autoUpdater.quitAndInstall();
+
+  });
+
+});
+
+
 app.whenReady().then(() => {
 
   console.log("REGISTER LICENSE IPC");
