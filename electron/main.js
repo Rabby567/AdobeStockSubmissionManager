@@ -35,14 +35,19 @@ function createWindow() {
   });
 
 const startUrl = app.isPackaged
-    ? `file://${path.join(__dirname, "../dist/index.html")}`
-    : "http://localhost:5173";
+  ? `file://${path.join(__dirname, "../dist/index.html")}`
+  : "http://localhost:5173";
+
+win.loadURL(startUrl);
+
+console.log("=================================");
+console.log("APP IS PACKAGED:", app.isPackaged);
+console.log("APP VERSION:", app.getVersion());
+console.log("CHECKING FOR UPDATES...");
+console.log("=================================");
 
 if (app.isPackaged) {
-    win.loadURL(startUrl);
-    autoUpdater.checkForUpdatesAndNotify();
-} else {
-    win.loadURL(startUrl);
+  autoUpdater.checkForUpdatesAndNotify();
 }
 
 }
