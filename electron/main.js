@@ -22,6 +22,26 @@ const {
 const LICENSE_SERVER =
   "https://script.google.com/macros/s/AKfycbwc4ixyTUHG6JpY7WFh5gw2f4ZOp0dLnUiucV6r26uU9qRg6lzq-_GusUOVYqbmjOyC/exec";
 
+// Logfile
+
+const logFile = path.join(
+  app.getPath("desktop"),
+  "updater-log.txt"
+);
+
+function writeLog(message) {
+
+  const time = new Date().toLocaleString();
+
+  fs.appendFileSync(
+    logFile,
+    `[${time}] ${message}\n`
+  );
+
+}
+
+// Logfile
+
 function createWindow() {
 
   const win = new BrowserWindow({
@@ -47,35 +67,84 @@ console.log("CHECKING FOR UPDATES...");
 console.log("=================================");
 
 if (app.isPackaged) {
-  autoUpdater.checkForUpdatesAndNotify();
+
+  console.log("START UPDATE CHECK");
+
+//log 
+writeLog("================================");
+writeLog("Checking for update...");
+writeLog("Current Version: " + app.getVersion());
+//log 
+
+
+  autoUpdater
+    .checkForUpdates()
+    .then((result) => {
+      console.log("CHECK RESULT");
+      console.log(result);
+    })
+    .catch((err) => {
+      console.error("CHECK FAILED");
+      console.error(err);
+    });
+
 }
 
 }
+
+autoUpdater.logger = console;
+autoUpdater.autoDownload = true;
+autoUpdater.autoInstallOnAppQuit = true;
 
 
 autoUpdater.on("checking-for-update", () => {
-  console.log("Checking for updates...");
+  console.log("EVENT: checking-for-update");
 });
 
 autoUpdater.on("update-available", (info) => {
-  console.log("Update available:", info.version);
-});
 
-autoUpdater.on("update-not-available", () => {
-  console.log("No update available");
+  console.log("EVENT: update-available");
+
+  console.log(info);
+
+  writeLog("UPDATE AVAILABLE");
+
+  writeLog(JSON.stringify(info, null, 2));
+
 });
 
 autoUpdater.on("error", (err) => {
-  console.log("Update error:", err);
+
+  console.error(err);
+
+  writeLog("UPDATER ERROR");
+
+  writeLog(err.stack || err.toString());
+
 });
 
+autoUpdater.on("update-not-available", (info) => {
+  console.log("EVENT: update-not-available", info);
+});
+
+
 autoUpdater.on("download-progress", (progress) => {
+
   console.log(
     `Downloading ${Math.round(progress.percent)}%`
   );
+
+  writeLog(
+    `DOWNLOAD ${progress.percent.toFixed(2)}%`
+  );
+
 });
 
 autoUpdater.on("update-downloaded", (info) => {
+
+  writeLog("DOWNLOAD COMPLETE");
+
+  writeLog(JSON.stringify(info, null, 2));
 
   dialog.showMessageBox({
     type: "info",
@@ -92,6 +161,7 @@ autoUpdater.on("update-downloaded", (info) => {
 
 
 app.whenReady().then(() => {
+
 
   console.log("REGISTER LICENSE IPC");
 

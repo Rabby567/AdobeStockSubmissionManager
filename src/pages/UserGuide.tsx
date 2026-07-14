@@ -360,11 +360,11 @@ lineHeight:"30px"
 
 <br/>
 
-├── thumbnail.jpg
+├── Thumbnail.jpg
 
 <br/>
 
-└── preview.jpg
+└── Preview1.jpg
 
 </div>
 
@@ -832,8 +832,8 @@ overflowY:"auto",
           paddingLeft: "18px",
         }}
       >
-        <li>thumbnail.jpg must exist.</li>
-        <li>preview.jpg must exist.</li>
+        <li>Thumbnail.jpg must exist.</li>
+        <li>Preview1.jpg must exist.</li>
         <li>The template file must be inside the same folder.</li>
       </ul>
     </div>
