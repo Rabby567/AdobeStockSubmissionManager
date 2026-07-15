@@ -179,22 +179,45 @@ autoUpdater.on("download-progress", (progress) => {
 
 });
 
-autoUpdater.on("update-downloaded", (info) => {
+autoUpdater.on("update-downloaded", async (info) => {
 
   writeLog("DOWNLOAD COMPLETE");
-
   writeLog(JSON.stringify(info, null, 2));
 
-  dialog.showMessageBox({
+  let notes = info.releaseNotes || "No release notes.";
+
+// যদি releaseNotes array হয়
+if (Array.isArray(notes)) {
+  notes = notes
+    .map(item => item.note || item)
+    .join("\n");
+}
+
+// String বানাও
+notes = String(notes);
+
+// HTML remove
+notes = notes
+  .replace(/<[^>]+>/g, "\n")
+  .replace(/&nbsp;/g, " ")
+  .replace(/&amp;/g, "&")
+  .replace(/\n{2,}/g, "\n")
+  .trim();
+
+writeLog("========== CLEAN NOTES ==========");
+writeLog(notes);
+
+console.log(notes);
+
+  await dialog.showMessageBox({
     type: "info",
-    title: "Update Ready",
-    message: `Version ${info.version} downloaded successfully.`,
-    buttons: ["Restart Now"],
-  }).then(() => {
-
-    autoUpdater.quitAndInstall();
-
+    title: `Version ${info.version} Available`,
+    message: `Version ${info.version} has been downloaded successfully.`,
+    detail: `What's New\n\n${notes}`,
+    buttons: ["Restart Now"]
   });
+
+  autoUpdater.quitAndInstall();
 
 });
 
