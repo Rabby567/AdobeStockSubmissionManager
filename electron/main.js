@@ -1,5 +1,12 @@
 console.log("MAIN JS LOADED");
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  dialog,
+  Menu
+} = require("electron");
+
 const { autoUpdater } = require("electron-updater");
 const path = require("path");
 const fs = require("fs");
@@ -51,6 +58,7 @@ function createWindow() {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
+      devTools: !app.isPackaged
     },
   });
 
@@ -59,6 +67,37 @@ const startUrl = app.isPackaged
   : "http://localhost:5173";
 
 win.loadURL(startUrl);
+
+if (app.isPackaged) {
+    Menu.setApplicationMenu(null);
+}
+
+
+win.webContents.on("before-input-event", (event, input) => {
+    if (
+        app.isPackaged &&
+        (
+            input.key === "F12" ||
+            (input.control && input.shift && input.key.toUpperCase() === "I") ||
+            (input.control && input.shift && input.key.toUpperCase() === "J") ||
+            (input.control && input.shift && input.key.toUpperCase() === "C")
+        )
+    ) {
+        event.preventDefault();
+    }
+});
+
+
+if (app.isPackaged) {
+
+    win.webContents.on("devtools-opened", () => {
+
+        win.webContents.closeDevTools();
+
+    });
+
+}
+
 
 console.log("=================================");
 console.log("APP IS PACKAGED:", app.isPackaged);
