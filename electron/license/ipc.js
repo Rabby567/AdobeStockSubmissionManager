@@ -62,6 +62,14 @@ ipcMain.handle(
 
   activated: true,
 
+  activatedOn: new Date().toLocaleDateString("en-GB", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+}),
+
+
+
   lastCheck: new Date().toISOString(),
 
   lastOnlineVerification:
@@ -173,6 +181,14 @@ const updatedLicense = {
 
   activated: true,
 
+  activatedOn:
+  license.activatedOn ||
+  new Date().toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }),
+
   lastCheck: new Date().toISOString(),
 
   lastOnlineVerification:
@@ -186,6 +202,15 @@ console.log("UPDATED LICENSE");
 console.log(updatedLicense);
 
 return updatedLicense;
+
+  }
+);
+
+ipcMain.handle(
+  "get-license-info",
+  async () => {
+
+    return loadLicense();
 
   }
 );

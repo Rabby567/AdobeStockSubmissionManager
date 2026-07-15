@@ -82,10 +82,17 @@ export default function Sidebar() {
         </NavLink>
 
         <NavLink
-  to="/guide"
+           to="/guide"
+           style={menuStyle}
+         >
+         📖 User Guide
+         </NavLink>
+
+            <NavLink
+  to="/license-info"
   style={menuStyle}
 >
-  📖 User Guide
+  🔐 License Information
 </NavLink>
 
       </nav>

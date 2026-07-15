@@ -11,6 +11,7 @@ const { autoUpdater } = require("electron-updater");
 const path = require("path");
 const fs = require("fs");
 const { exiftool } = require("exiftool-vendored");
+const Store = require("electron-store");
 
 const sizeOf = require("image-size").imageSize;
 console.log("IMAGE SIZE =", sizeOf);
@@ -220,6 +221,12 @@ console.log(notes);
   autoUpdater.quitAndInstall();
 
 });
+
+
+ipcMain.handle("get-version", () => {
+  return app.getVersion();
+});
+
 
 
 app.whenReady().then(() => {

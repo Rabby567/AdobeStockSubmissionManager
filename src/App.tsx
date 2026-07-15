@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Review from "./pages/Review";
 import Settings from "./pages/Settings";
 import UserGuide from "./pages/UserGuide";
+import LicenseInfo from "./pages/LicenseInfo";
 
 function App() {
   console.log("APP COMPONENT LOADED");
@@ -36,6 +37,11 @@ return (
             path="/guide"
             element={<UserGuide />}
           />
+
+          <Route
+    path="/license-info"
+    element={<LicenseInfo />}
+/>
         </Routes>
       </HashRouter>
     </LicenseGate>

@@ -60,4 +60,14 @@ checkLicense: () =>
     "check-license"
   ),
 
+  getLicenseInfo: () =>
+  ipcRenderer.invoke(
+    "get-license-info"
+  ),
+
+  getVersion: () =>
+  ipcRenderer.invoke(
+    "get-version"
+  ),
+
 });

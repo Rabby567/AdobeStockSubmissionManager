@@ -103,5 +103,19 @@ interface Window {
       deviceId?: string;
     }>;
 
+ getLicenseInfo: () => Promise<{
+  activated: boolean;
+  customer: string;
+  email: string;
+  licenseKey: string;
+  deviceId: string;
+  plan: string;
+  expiry: string;
+  activatedOn?: string;
+  lastCheck?: string;
+  lastOnlineVerification?: string;
+}>;
+    getVersion: () => string;
+
      };
 }
