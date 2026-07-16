@@ -1,7 +1,7 @@
 {
   "name": "adobestocksubmissionmanager",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Adobe Stock Submission Manager",
   "author": "Fazle Rabby",
   "main": "electron/main.js",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "archiver": "^5.3.2",
+    "crypto-js": "^4.2.0",
     "electron-store": "^8.2.0",
     "electron-updater": "^6.8.9",
     "exiftool-vendored": "^36.0.0",
@@ -85,13 +86,12 @@
       "runAfterFinish": true,
       "deleteAppDataOnUninstall": false
     },
-"publish": [
-  {
-    "provider": "github",
-    "owner": "Rabby567",
-    "repo": "AdobeStockSubmissionManager"
-  }
-]
-
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Rabby567",
+        "repo": "AdobeStockSubmissionManager"
+      }
+    ]
   }
 }
