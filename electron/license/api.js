@@ -44,6 +44,9 @@ async function activateLicense(
   console.log("NETWORK ERROR");
   console.log(err.message);
 
+  console.log(err);
+  console.log(err.cause);
+
   return {
 
     success: false,
