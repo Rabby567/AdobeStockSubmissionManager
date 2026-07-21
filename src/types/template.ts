@@ -31,4 +31,6 @@ export type TemplateItem = {
   title: string;
   category: string;
   colorspace: string;
+  hasThumbnail: boolean;
+  hasPreview: boolean;
 };

@@ -7,12 +7,18 @@ import { useState, useEffect } from "react";
 import { useCategoryStore } from "../store/useCategoryStore";
 import Button from "../components/ui/Button";
 import { validateTemplate } from "../services/validationEngine";
+import { useSubmissionStore } from "../store/submissionStore";
 
 type ScanResult = TemplateItem;
 
 export default function Dashboard() {
-  const [date, setDate] = useState("20260623");
-  const [batchNumber, setBatchNumber] = useState("273");
+  const {
+    date,
+    batchNumber,
+    setDate,
+    setBatchNumber
+} = useSubmissionStore();
+
   const [selectedFolder, setSelectedFolder] = useState("");
   const [foldersFound, setFoldersFound] = useState(0);
   const [missingFiles, setMissingFiles] = useState(0);
@@ -105,8 +111,10 @@ const validationErrors =
 return {
     ...template,
 
-    validationErrors,
+    hasThumbnail: template.hasThumbnail,
+    hasPreview: template.hasPreview,
 
+    validationErrors,
     valid: validationErrors.length === 0,
 };
     });

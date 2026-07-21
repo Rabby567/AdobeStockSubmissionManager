@@ -3,21 +3,27 @@ import { create } from "zustand";
 import type { TemplateItem } from "../types/template";
 
 interface TemplateStore {
+
   templates: TemplateItem[];
 
   setTemplates: (templates: TemplateItem[]) => void;
 
   updateTemplate: (
-    index: number,
-    field: string,
-    value: string
-  ) => void;
+    index:number,
+    field:string,
+    value:string
+  )=>void;
 
   removeTemplate: (
-    index: number
-  ) => void;
-}
+    index:number
+  )=>void;
 
+  updateFilenamePrefix: (
+    date:string,
+    batch:string
+  )=>void;
+
+}
 
 
 export const useTemplateStore = create<TemplateStore>((set) => ({
@@ -127,6 +133,30 @@ if (field === "title") {
       (_, i) => i !== index
     ),
   })),
+
+
+  updateFilenamePrefix: (date, batch) =>
+set((state) => ({
+
+templates: state.templates.map(item => {
+
+const title =
+item.filename
+.replace(/^\d{8}_Batch\d+_/, "")
+.replace(/\.zip$/i, "");
+
+return {
+
+...item,
+
+filename:
+`${date}_Batch${batch}_${title}.zip`
+
+};
+
+})
+
+})),
 
 
 }));

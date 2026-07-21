@@ -26,6 +26,8 @@ interface Window {
   previewValid: boolean;
 
   preview: boolean;
+  hasThumbnail: boolean;
+  hasPreview: boolean;
 
   templateCount: number;
   templateType: string;

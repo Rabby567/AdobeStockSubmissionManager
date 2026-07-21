@@ -7,6 +7,9 @@ import { useState, useEffect } from "react";
 import ReviewHeader from "../components/review/ReviewHeader";
 import GoogleUploadCard from "../components/review/GoogleUploadCard";
 import ReviewDesktopCard from "../components/review/ReviewDesktopCard";
+import { useSubmissionStore } from "../store/submissionStore";
+import Button from "../components/ui/Button";
+
 import {
   detectCategory
 } from "../services/categoryDetector";
@@ -40,6 +43,11 @@ export default function Review() {
     (state) => state.removeTemplate
   );
 
+  const updateFilenamePrefix =
+useTemplateStore(
+(state)=>state.updateFilenamePrefix
+);
+
   const [googleProgress, setGoogleProgress] =
   useState(0);
 
@@ -54,6 +62,13 @@ const setTemplates =
   useTemplateStore(
     (state) => state.setTemplates
   );
+
+  const {
+  date,
+  batchNumber,
+  setDate,
+  setBatchNumber,
+} = useSubmissionStore();
 
 
   useEffect(() => {
@@ -152,6 +167,28 @@ const redetectCategories = () => {
 );
 };
 
+const saveSubmissionSettings = () => {
+
+if (!date || !batchNumber) {
+
+toast.error(
+"Date and Batch Number required"
+);
+
+return;
+
+}
+
+updateFilenamePrefix(
+date,
+batchNumber
+);
+
+toast.success(
+"Submission Settings Updated"
+);
+
+};
   
 
   return (
@@ -170,25 +207,104 @@ const redetectCategories = () => {
 <div
   style={{
     display: "grid",
-    gridTemplateColumns: "1fr 380px",
+    gridTemplateColumns: "1fr 2fr 1fr",
     gap: "24px",
     marginTop: "30px",
     alignItems: "stretch",
-    gridAutoRows: "1fr",
   }}
 >
 
-  <GoogleUploadCard
+
+
+<div
+style={{
+background:"#fff",
+borderRadius:"18px",
+padding:"24px",
+boxShadow:"0 8px 24px rgba(0,0,0,.06)",
+display:"flex",
+flexDirection:"column",
+justifyContent:"space-between"
+}}
+>
+
+<h3>Submission Settings</h3>
+
+<label
+style={{
+  marginTop:"10px",
+}}
+>Date</label>
+
+<input
+value={date}
+onChange={(e)=>setDate(e.target.value)}
+style={{
+width:"100%",
+height:"42px",
+padding:"0 12px",
+marginTop:"6px",
+marginBottom:"16px",
+border:"1px solid #d1d5db",
+borderRadius:"10px",
+fontSize:"14px"
+}}
+/>
+
+<label
+style={{
+  marginTop:"-8px",
+}}
+>Batch Number</label>
+
+<input
+value={batchNumber}
+onChange={(e)=>setBatchNumber(e.target.value)}
+style={{
+width:"100%",
+height:"42px",
+padding:"0 12px",
+marginTop:"6px",
+border:"1px solid #d1d5db",
+borderRadius:"10px",
+fontSize:"14px"
+}}
+/>
+
+<div
+  style={{
+    display: "flex",
+    justifyContent: "left",
+    marginTop: "18px",
+  }}
+>
+  <Button
+    color="blue"
+    variant="solid"
+    size="md"
+    onClick={saveSubmissionSettings}
+    loadingText="Saving..."
+    successText="Saved"
+  >
+    💾 Save Changes
+  </Button>
+</div>
+
+
+
+</div>
+
+<GoogleUploadCard
     progress={googleProgress}
     onRedetect={redetectCategories}
-  />
+/>
 
-  <AssetValidationCard
+<AssetValidationCard
     templates={templates}
     onViewReport={() =>
-      setShowAssetReport(true)
+        setShowAssetReport(true)
     }
-  />
+/>
 
 </div>
 

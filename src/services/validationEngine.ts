@@ -36,6 +36,25 @@ export function validateTemplate(item: TemplateItem) {
     if (/\s{2,}/.test(item.filename))
         errors.push("Double Space in Filename");
 
+
+    // Missing File
+
+    if (!item.hasThumbnail) {
+    errors.push("Thumbnail.jpg Missing");
+}
+
+if (!item.hasPreview) {
+    errors.push("Preview1.jpg Missing");
+}
+
+if (item.templateCount === 0) {
+    errors.push("Missing Template File (.ait/.indt/.psdt)");
+}
+
+if (item.templateCount > 1) {
+    errors.push("Multiple Template Files Found");
+}
+
     // Thumbnail Size
 
 if (

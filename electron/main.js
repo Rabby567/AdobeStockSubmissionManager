@@ -39,6 +39,11 @@ const logFile = path.join(
 
 function writeLog(message) {
 
+  // Production build-এ log লিখবে না
+  if (app.isPackaged) {
+    return;
+  }
+
   const time = new Date().toLocaleString();
 
   fs.appendFileSync(
@@ -412,6 +417,8 @@ ipcMain.handle("scan-folder", async (event, folderPath) => {
     const templateFolder = path.join(folderPath, item.name);
 
     const files = fs.readdirSync(templateFolder);
+    console.log(item.name);
+console.log(files);
 
     const hasThumbnail = files.includes("Thumbnail.jpg");
     const hasPreview = files.includes("Preview1.jpg");
@@ -421,6 +428,13 @@ ipcMain.handle("scan-folder", async (event, folderPath) => {
 
       return [".psdt", ".ait", ".indt"].includes(ext);
     });
+
+
+    const hasRequiredFiles =
+  hasThumbnail &&
+  hasPreview &&
+  templateFiles.length === 1;
+
 
     const title =
   templateFiles.length > 0
@@ -556,17 +570,34 @@ if (
 }
 
 
+if (!hasRequiredFiles) {
 
-if (!hasThumbnail) {
-  validationErrors.push("Missing Thumbnail");
-}
+  if (!hasThumbnail) {
+    validationErrors.push("Thumbnail.jpg Missing");
+  }
 
-if (!hasPreview) {
-  validationErrors.push("Missing Preview");
-}
+  if (!hasPreview) {
+    validationErrors.push("Preview1.jpg Missing");
+  }
 
-if (templateFiles.length !== 1) {
-  validationErrors.push("Template File Error");
+  if (templateFiles.length === 0) {
+
+    console.log(validationErrors);
+
+    validationErrors.push(
+      "Missing Template File (.ait/.indt/.psdt)"
+    );
+  }
+
+  if (templateFiles.length > 1) {
+
+    console.log(validationErrors);
+
+    validationErrors.push(
+      "Multiple Template Files Found"
+    );
+  }
+
 }
 
 if (!keywords) {
@@ -619,6 +650,10 @@ console.log({
   previewHeight,
 });
 
+console.log("FINAL VALID:", valid);
+console.log("FINAL ERRORS:", validationErrors);
+
+
  folders.push({
   name: item.name,
   path: templateFolder,
@@ -629,6 +664,9 @@ console.log({
 
   previewWidth,
   previewHeight,
+
+  hasThumbnail,
+  hasPreview,
 
   thumbnailValid:
    thumbnailWidth === 2048 &&

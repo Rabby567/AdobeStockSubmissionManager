@@ -114,7 +114,7 @@ export default function Sidebar() {
         >
           Developed by Fazle Rabby <br />
           © 2026 All Rights Reserved. <br />
-          Version 1.1.1
+          Version 1.1.2
           
         </div>
 
