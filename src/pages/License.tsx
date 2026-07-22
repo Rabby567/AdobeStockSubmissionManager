@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { APP_CONFIG } from "../config/app";
 export default function License() {
 
   const [licenseKey, setLicenseKey] = useState("");
@@ -215,7 +215,7 @@ export default function License() {
 
           <br /><br />
 
-          Version 1.0.0
+          Version {APP_CONFIG.VERSION}
         </div>
 
       </div>

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { APP_CONFIG } from "../config/app";
 
 export default function Sidebar() {
   const menuStyle = ({ isActive }: { isActive: boolean }) => ({
@@ -114,7 +115,7 @@ export default function Sidebar() {
         >
           Developed by Fazle Rabby <br />
           © 2026 All Rights Reserved. <br />
-          Version 1.1.2
+          Version {APP_CONFIG.VERSION}
           
         </div>
 

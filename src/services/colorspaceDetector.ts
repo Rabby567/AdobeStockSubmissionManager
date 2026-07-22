@@ -87,6 +87,7 @@ export function detectColorspace(title: string): string {
     text.includes("ticket") ||
     text.includes("voucher") ||
     text.includes("calendar") ||
+    text.includes("calendars") ||
     text.includes("planner") ||
     text.includes("packaging") ||
     text.includes("label")

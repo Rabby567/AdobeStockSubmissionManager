@@ -140,10 +140,11 @@ set((state) => ({
 
 templates: state.templates.map(item => {
 
-const title =
-item.filename
-.replace(/^\d{8}_Batch\d+_/, "")
-.replace(/\.zip$/i, "");
+const title = item.filename
+  .replace(/\.zip$/i, "")
+  .replace(/^\d{8}_Batch\d+_/, "")
+  .replace(/^_?Batch_?/i, "")
+  .replace(/^_+/, "");
 
 return {
 

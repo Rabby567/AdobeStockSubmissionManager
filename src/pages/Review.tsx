@@ -146,25 +146,25 @@ const generatePackages = async () => {
 
 const redetectCategories = () => {
 
-  const updatedTemplates =
-    templates.map((item) => ({
+  const updatedTemplates = templates.map((item) => {
 
+    const category = detectCategory(item.title, rules);
+
+    const updatedItem = {
       ...item,
+      category,
+    };
 
-      category:
-        detectCategory(
-          item.title,
-          rules
-        ),
-    }));
+    return {
+      ...updatedItem,
+      validationErrors: validateTemplate(updatedItem),
+    };
 
-  setTemplates(
-    updatedTemplates
-  );
+  });
 
-  toast.success(
-  "Categories updated successfully"
-);
+  setTemplates(updatedTemplates);
+
+  toast.success("Categories updated successfully");
 };
 
 const saveSubmissionSettings = () => {
@@ -207,7 +207,7 @@ toast.success(
 <div
   style={{
     display: "grid",
-    gridTemplateColumns: "1fr 2fr 1fr",
+    gridTemplateColumns: "1.35fr 1.9fr 1fr",
     gap: "24px",
     marginTop: "30px",
     alignItems: "stretch",
@@ -230,64 +230,70 @@ justifyContent:"space-between"
 
 <h3>Submission Settings</h3>
 
-<label
-style={{
-  marginTop:"10px",
-}}
->Date</label>
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "14px",
+    marginTop: "10px",
+  }}
+>
 
-<input
-value={date}
-onChange={(e)=>setDate(e.target.value)}
-style={{
-width:"100%",
-height:"42px",
-padding:"0 12px",
-marginTop:"6px",
-marginBottom:"16px",
-border:"1px solid #d1d5db",
-borderRadius:"10px",
-fontSize:"14px"
-}}
-/>
+  <div>
+    <label>Date</label>
 
-<label
-style={{
-  marginTop:"-8px",
-}}
->Batch Number</label>
+    <input
+      value={date}
+      onChange={(e) => setDate(e.target.value)}
+      style={{
+        width: "100%",
+        height: "42px",
+        padding: "0 12px",
+        marginTop: "6px",
+        border: "1px solid #d1d5db",
+        borderRadius: "10px",
+        fontSize: "14px",
+      }}
+    />
+  </div>
 
-<input
-value={batchNumber}
-onChange={(e)=>setBatchNumber(e.target.value)}
-style={{
-width:"100%",
-height:"42px",
-padding:"0 12px",
-marginTop:"6px",
-border:"1px solid #d1d5db",
-borderRadius:"10px",
-fontSize:"14px"
-}}
-/>
+  <div>
+    <label>Batch Number</label>
+
+    <input
+      value={batchNumber}
+      onChange={(e) => setBatchNumber(e.target.value)}
+      style={{
+        width: "100%",
+        height: "42px",
+        padding: "0 12px",
+        marginTop: "6px",
+        border: "1px solid #d1d5db",
+        borderRadius: "10px",
+        fontSize: "14px",
+      }}
+    />
+  </div>
+
+</div>
 
 <div
   style={{
-    display: "flex",
-    justifyContent: "left",
     marginTop: "18px",
+    width: "100%",
   }}
 >
   <Button
-    color="blue"
-    variant="solid"
-    size="md"
-    onClick={saveSubmissionSettings}
-    loadingText="Saving..."
-    successText="Saved"
-  >
-    💾 Save Changes
-  </Button>
+  color="blue"
+  variant="solid"
+  size="md"
+  fullWidth
+  onClick={saveSubmissionSettings}
+  loadingText="Saving..."
+  successText="Saved"
+>
+  💾 Save Changes
+</Button>
 </div>
 
 

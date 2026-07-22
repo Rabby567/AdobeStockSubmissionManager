@@ -15,6 +15,7 @@ export default function LicenseGate({
 
   const [checking, setChecking] = useState(true);
   const [licensed, setLicensed] = useState(false);
+  const [suspended, setSuspended] = useState(false);
 
  useEffect(() => {
 
@@ -30,9 +31,13 @@ export default function LicenseGate({
 
       console.log("License Result:", result);
 
-      setLicensed(
-        result?.activated === true
-      );
+      if (result?.suspended) {
+  setSuspended(true);
+  setLicensed(false);
+} else {
+  setSuspended(false);
+  setLicensed(result?.activated === true);
+}
 
     } catch (err) {
 
@@ -56,9 +61,31 @@ export default function LicenseGate({
     return <LoadingScreen />;
 }
 
-  if (!licensed) {
-    return <>{fallback}</>;
-  }
+  if (suspended) {
+  return (
+    <div
+      style={{
+        display: "grid",
+        placeItems: "center",
+        height: "100vh",
+        fontFamily: "sans-serif",
+      }}
+    >
+      <div style={{ textAlign: "center" }}>
+        <h2>License Suspended</h2>
+        <p>
+          Your license has been suspended.
+          <br />
+          Please contact the administrator.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+if (!licensed) {
+  return <>{fallback}</>;
+}
 
   return <>{children}</>;
 

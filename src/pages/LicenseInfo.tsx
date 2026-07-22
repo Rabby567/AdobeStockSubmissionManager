@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import { APP_CONFIG } from "../config/app";
 import "../index.css";
 
 export default function LicenseInfo() {
@@ -159,7 +160,7 @@ if (!license) {
               fontWeight: 600,
             }}
           >
-            Version {version}
+            Version {APP_CONFIG.VERSION}
           </div>
 
         </div>

@@ -18,6 +18,7 @@ type ButtonProps = {
   animated?: boolean;
 
   disabled?: boolean;
+  fullWidth?: boolean;
 };
 
 export default function Button({
@@ -30,6 +31,7 @@ export default function Button({
   successText = "Saved",
   animated = true,
   disabled = false,
+  fullWidth = false,
 }: ButtonProps) {
 
   const [state, setState] =
@@ -76,16 +78,19 @@ export default function Button({
   return (
 
     <button
-      className={`
-        ui-btn
-        ${variant}
-        ${color}
-        ${size}
-        ${state}
-      `}
-      disabled={disabled}
-      onClick={handleClick}
-    >
+  className={`
+    ui-btn
+    ${variant}
+    ${color}
+    ${size}
+    ${state}
+  `}
+  style={{
+    width: fullWidth ? "100%" : undefined,
+  }}
+  disabled={disabled}
+  onClick={handleClick}
+>
 
       {state === "idle" && children}
 

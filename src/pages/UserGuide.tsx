@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-
+import { APP_CONFIG } from "../config/app";
 export default function UserGuide() {
     const appScript = String.raw`
 function doPost(e) {
@@ -177,7 +177,7 @@ const copyScript = async () => {
                 fontWeight: 600,
               }}
             >
-              Version 1.0.0
+              Version {APP_CONFIG.VERSION}
             </div>
 
             <div

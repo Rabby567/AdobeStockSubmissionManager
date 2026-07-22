@@ -99,11 +99,16 @@ interface Window {
       message?: string;
     }>;
 
-    checkLicense: () => Promise<{
-      activated: boolean;
-      licenseKey?: string;
-      deviceId?: string;
-    }>;
+   checkLicense: () => Promise<{
+  activated: boolean;
+  suspended?: boolean;
+  licenseKey?: string;
+  deviceId?: string;
+  customer?: string;
+  email?: string;
+  plan?: string;
+  expiry?: string;
+}>;
 
  getLicenseInfo: () => Promise<{
   activated: boolean;
