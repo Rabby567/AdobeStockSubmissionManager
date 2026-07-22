@@ -195,7 +195,8 @@ toast.success(
     <Layout>
     <div
       style={{
-        padding: "20px",
+         width: "100%",
+        maxWidth: "100%",
       }}
     >
  

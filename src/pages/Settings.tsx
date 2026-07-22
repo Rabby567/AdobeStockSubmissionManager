@@ -189,7 +189,8 @@ const inputStyle = {
     <Layout>
     <div
       style={{
-        padding: "20px",
+         width: "100%",
+        maxWidth: "100%",
       }}
     >
       <div

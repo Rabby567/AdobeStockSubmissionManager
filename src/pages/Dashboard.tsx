@@ -15,8 +15,6 @@ export default function Dashboard() {
   const {
     date,
     batchNumber,
-    setDate,
-    setBatchNumber
 } = useSubmissionStore();
 
   const [selectedFolder, setSelectedFolder] = useState("");
@@ -180,72 +178,6 @@ return {
     packages for Adobe Stock.
   </p>
 
-  <div
-    style={{
-      display: "flex",
-      gap: "20px",
-      marginTop: "30px",
-      alignItems: "flex-start",
-    }}
-  >
-    <div
-      style={{
-        flex: 1,
-      }}
-    >
-      <label
-        style={{
-          display: "block",
-          marginBottom: "8px",
-          fontWeight: 600,
-        }}
-      >
-        Date
-      </label>
-
-      <input
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        style={{
-          width: "100%",
-          boxSizing: "border-box",
-          padding: "12px",
-          borderRadius: "10px",
-          border: "1px solid #d1d5db",
-        }}
-      />
-    </div>
-
-    <div
-      style={{
-        flex: 1,
-      }}
-    >
-      <label
-        style={{
-          display: "block",
-          marginBottom: "8px",
-          fontWeight: 600,
-        }}
-      >
-        Batch Number
-      </label>
-
-      <input
-        value={batchNumber}
-        onChange={(e) =>
-          setBatchNumber(e.target.value)
-        }
-        style={{
-          width: "100%",
-          boxSizing: "border-box",
-          padding: "12px",
-          borderRadius: "10px",
-          border: "1px solid #d1d5db",
-        }}
-      />
-    </div>
-  </div>
 </div>
 
       <div

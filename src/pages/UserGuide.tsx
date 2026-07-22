@@ -121,9 +121,8 @@ const copyScript = async () => {
     <Layout>
       <div
         style={{
-          padding: "20px",
-          maxWidth: "1200px",
-          margin: "0 auto",
+           width: "100%",
+        maxWidth: "100%",
         }}
       >
         {/* Hero */}
