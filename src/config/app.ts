@@ -1,7 +1,7 @@
 export const APP_CONFIG = {
   NAME: "Adobe Stock Submission Manager",
 
-  VERSION: "1.1.3",
+  VERSION: "1.1.4",
 
   AUTHOR: "Fazle Rabby",
 
