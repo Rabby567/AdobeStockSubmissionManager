@@ -114,10 +114,10 @@ const generateExcel = async () => {
         templates
       );
 
-    toast.success("Excel generated successfully");
+    toast.success("CSV generated successfully");
   } catch (error) {
     console.error(error);
-    toast.error("Failed to generate Excel");
+    toast.error("Failed to generate CSV");
   }
 };
 

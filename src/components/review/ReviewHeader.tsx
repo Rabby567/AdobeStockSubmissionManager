@@ -59,7 +59,7 @@ export default function ReviewHeader({
   successText="Done"
   onClick={onGenerateExcel}
 >
-  Generate Excel
+  Generate CSV
 </Button>
 
           <Button

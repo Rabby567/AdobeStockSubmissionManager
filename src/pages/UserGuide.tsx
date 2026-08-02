@@ -13,17 +13,17 @@ function doPost(e) {
         .getActiveSpreadsheet()
         .getSheetByName(data.sheetName);
 
-    // Clear previous uploaded data
-    const lastRow = sheet.getLastRow();
+        // Clear previous uploaded data
+const lastRow = sheet.getLastRow();
 
-    if (lastRow > 2) {
-      sheet.getRange(
-        3,
-        1,
-        lastRow - 2,
-        8
-      ).clearContent();
-    }
+if (lastRow > 2) {
+  sheet.getRange(
+    3,
+    1,
+    lastRow - 2,
+    8
+  ).clearContent();
+}
 
     if (!sheet) {
       throw new Error(
@@ -32,6 +32,7 @@ function doPost(e) {
       );
     }
 
+    // পুরোনো data delete
     if (sheet.getLastRow() > 2) {
       sheet.getRange(
         3,
@@ -41,6 +42,7 @@ function doPost(e) {
       ).clearContent();
     }
 
+    // নতুন data তৈরি
     const rows =
       data.templates.map(item => [
 
@@ -100,6 +102,51 @@ function doPost(e) {
 
   }
 
+}
+
+
+function doGet(e) {
+
+  if (e.parameter.action !== "downloadCsv") {
+    return ContentService
+      .createTextOutput("Invalid Request");
+  }
+
+  const sheet =
+    SpreadsheetApp
+      .getActiveSpreadsheet()
+      .getSheetByName("Portal_MetadataForm"); // Metadata sheet name
+
+  const gid = sheet.getSheetId();
+
+const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+const exportUrl =
+  "https://docs.google.com/spreadsheets/d/" +
+  ss.getId() +
+  "/export?format=csv&gid=" +
+  gid;
+
+ const response =
+  UrlFetchApp.fetch(exportUrl, {
+    headers: {
+      Authorization:
+        "Bearer " + ScriptApp.getOAuthToken(),
+    },
+    muteHttpExceptions: true,
+  });
+
+Logger.log(response.getResponseCode());
+Logger.log(response.getContentText());
+
+
+  return ContentService
+    .createTextOutput(
+      response.getContentText()
+    )
+    .setMimeType(
+      ContentService.MimeType.CSV
+    );
 }
 `;
 

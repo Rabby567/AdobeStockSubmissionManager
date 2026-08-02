@@ -17,8 +17,6 @@ const sizeOf = require("image-size").imageSize;
 console.log("IMAGE SIZE =", sizeOf);
 
 
-
-const XLSX = require("xlsx");
 const archiver = require("archiver");
 const { machineIdSync } = require("node-machine-id");
 
@@ -265,40 +263,11 @@ ipcMain.handle(
 );
 
 
+
     console.log("GENERATE EXCEL STARTED");
     console.log(templates.length);
 
 
-    const rows = templates.map((item) => ({
-      Filename: item.filename,
-      Title: item.title,
-      "Template Category": item.category,
-      Keywords: item.keywords,
-      "Template Size": item.templateSize,
-      Colorspace: item.colorspace,
-      "Number of Pages or Options": item.pages,
-      Disclaimers:
-        "Photos or design elements shown in the preview are for display only and are not included in the downloaded file",
-    }));
-
-    const worksheet =
-      XLSX.utils.json_to_sheet(rows);
-
-    const workbook =
-      XLSX.utils.book_new();
-
-    XLSX.utils.book_append_sheet(
-      workbook,
-      worksheet,
-      "Adobe Stock"
-    );
-
-    const savePath = path.join(
-      app.getPath("desktop"),
-      "AdobeStockMetadata.xlsx"
-    );
-
-    XLSX.writeFile(workbook, savePath);
 
     event.sender.send(
   "google-progress",
@@ -366,10 +335,58 @@ const response = await fetch(settings.scriptUrl, {
 
   const result = await response.text();
 
+
   console.log("Response:");
   console.log(result);
 
-  event.sender.send("google-progress", 100);
+
+  // Download CSV from Google Sheet
+
+const csvUrl =
+  settings.scriptUrl.includes("?")
+    ? settings.scriptUrl + "&action=downloadCsv"
+    : settings.scriptUrl + "?action=downloadCsv";
+
+console.log("CSV URL:");
+console.log(csvUrl);
+
+const csvResponse =
+  await fetch(csvUrl);
+
+if (!csvResponse.ok) {
+
+  throw new Error(
+    "Failed to download CSV"
+  );
+
+}
+
+const csvBuffer =
+  Buffer.from(
+    await csvResponse.arrayBuffer()
+  );
+
+const csvSavePath =
+  path.join(
+    app.getPath("desktop"),
+    "AdobeStockTemplates_MetadataForm_Portal.csv"
+  );
+
+fs.writeFileSync(
+  csvSavePath,
+  csvBuffer
+);
+
+console.log("CSV Saved:");
+console.log(csvSavePath);
+
+event.sender.send(
+  "google-progress",
+  100
+);
+
+return csvSavePath;
+
 
 } catch (error) {
 
@@ -381,7 +398,7 @@ const response = await fetch(settings.scriptUrl, {
 
 }
 
-return savePath;
+return true;
   }
 );
 
