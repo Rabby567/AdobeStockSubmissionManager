@@ -90,7 +90,10 @@ const handleFolderSelect = async () => {
 
     category: detectedCategory,
 
-    colorspace: detectColorspace(item.title),
+    colorspace: detectColorspace(
+  item.title,
+  item.templateSize
+),
 
     pages: item.pages || "",
 

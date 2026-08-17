@@ -25,7 +25,7 @@ interface Window {
   thumbnailValid: boolean;
   previewValid: boolean;
 
-  preview: boolean;
+  preview?: string;
   hasThumbnail: boolean;
   hasPreview: boolean;
 

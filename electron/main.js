@@ -471,6 +471,7 @@ const previewPath = path.join(
   "Preview1.jpg"
 );
 let thumbnail = "";
+let preview = "";
 
 let thumbnailWidth = 0;
 let thumbnailHeight = 0;
@@ -506,6 +507,9 @@ if (hasPreview) {
     fs.readFileSync(previewPath);
 
   console.log(sizeOf(previewBuffer));
+
+  preview =
+    `data:image/jpeg;base64,${previewBuffer.toString("base64")}`;
 
   const previewInfo =
     sizeOf(previewBuffer);
@@ -694,7 +698,7 @@ console.log("FINAL ERRORS:", validationErrors);
     previewHeight >= 1536 &&
     previewHeight <= 6144,
 
-  preview: hasPreview,
+  preview,
 
   filename: title + ".zip",
   title,

@@ -16,6 +16,7 @@ type Props = {
 
   isValid: boolean;
   allErrors: string[];
+  onPreview: () => void;
 };
 
 export default function ReviewDesktopCard({
@@ -26,6 +27,7 @@ export default function ReviewDesktopCard({
   removeTemplate,
   isValid,
   allErrors,
+  onPreview,
 }: Props) {
 return (
   <div
@@ -63,18 +65,20 @@ return (
     {index + 1}
   </div>
 
-  <div
-    style={{
-      width: "54px",
-      height: "54px",
-      borderRadius: "6px",
-      overflow: "hidden",
-      background: "#f3f4f6",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
+<div
+  onClick={item.thumbnail ? onPreview : undefined}
+  style={{
+    width: "54px",
+    height: "54px",
+    borderRadius: "6px",
+    overflow: "hidden",
+    background: "#f3f4f6",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: item.thumbnail ? "pointer" : "default",
+  }}
+>
 
 
    

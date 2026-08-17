@@ -56,6 +56,11 @@ useTemplateStore(
 
   const [showAssetReport, setShowAssetReport] =
   useState(false);
+
+  const [previewItem, setPreviewItem] = useState<{
+  thumbnail?: string;
+  preview?: string;
+} | null>(null);
   
 
 const setTemplates =
@@ -425,6 +430,12 @@ justifyContent:"space-between"
     removeTemplate={removeTemplate}
     isValid={isValid}
     allErrors={allErrors}
+  onPreview={() => {
+  setPreviewItem({
+    thumbnail: item.thumbnail,
+    preview: item.preview,
+  });
+}}
   />
 );
   })}
@@ -434,6 +445,154 @@ justifyContent:"space-between"
 </div>
 
     </div>
+
+
+    {previewItem && (
+  <div
+    onClick={() => setPreviewItem(null)}
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0, 0, 0, 0.75)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 9999,
+      padding: "30px",
+    }}
+  >
+<div
+  onClick={(e) => e.stopPropagation()}
+  style={{
+    position: "relative",
+    width: "100%",
+    maxWidth: "1600px",
+    height: "90vh",
+    background: "#fff",
+    borderRadius: "18px",
+    padding: "24px",
+    overflowY: "auto",
+    boxSizing: "border-box",
+    boxShadow: "0 20px 60px rgba(0,0,0,.35)",
+  }}
+>
+
+      {/* Close Button */}
+      <button
+        onClick={() => setPreviewItem(null)}
+        style={{
+  position: "absolute",
+  top: "14px",
+  right: "14px",
+  width: "38px",
+  height: "38px",
+  borderRadius: "50%",
+  border: "none",
+  background: "#ef4444",
+  color: "#fff",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: 0,
+  margin: 0,
+  fontSize: "22px",
+  fontWeight: 500,
+  lineHeight: 1,
+  cursor: "pointer",
+  zIndex: 10,
+}}
+      >
+        ×
+      </button>
+
+      <h2
+        style={{
+          marginTop: 0,
+          marginBottom: "20px",
+          color: "#111827",
+        }}
+      >
+        Preview
+      </h2>
+
+      {/* Thumbnail */}
+      {previewItem.thumbnail && (
+        <div style={{ marginBottom: "24px" }}>
+          <h3
+            style={{
+              marginBottom: "10px",
+              color: "#374151",
+            }}
+          >
+            Thumbnail
+          </h3>
+
+          <div
+            style={{
+              background: "#f3f4f6",
+              borderRadius: "12px",
+              padding: "15px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <img
+  src={previewItem.thumbnail}
+  alt="Thumbnail"
+  style={{
+    width: "100%",
+    height: "auto",
+    display: "block",
+    objectFit: "contain",
+    borderRadius: "8px",
+  }}
+/>
+          </div>
+        </div>
+      )}
+
+      {/* Preview */}
+      {previewItem.preview && (
+        <div>
+          <h3
+            style={{
+              marginBottom: "10px",
+              color: "#374151",
+            }}
+          >
+            Preview
+          </h3>
+
+          <div
+            style={{
+              background: "#f3f4f6",
+              borderRadius: "12px",
+              padding: "15px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+           <img
+  src={previewItem.preview}
+  alt="Preview"
+  style={{
+    width: "100%",
+    height: "auto",
+    display: "block",
+    objectFit: "contain",
+    borderRadius: "8px",
+  }}
+/>
+          </div>
+        </div>
+      )}
+
+    </div>
+  </div>
+)}
+
+
+
 
     {showAssetReport && (
   <AssetValidationReport

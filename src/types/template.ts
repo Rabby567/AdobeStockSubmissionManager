@@ -13,7 +13,7 @@ export type TemplateItem = {
   thumbnailValid: boolean;
   previewValid: boolean;
 
-  preview: boolean;
+  preview?: string;
 
   templateCount: number;
   templateType: string;

@@ -1,5 +1,10 @@
-export function detectColorspace(title: string): string {
+export function detectColorspace(
+  title: string,
+  templateSize?: string
+): string {
+
   const text = title.toLowerCase();
+  const size = (templateSize || "").toLowerCase();
 
   // RGB Templates
   if (
@@ -63,7 +68,6 @@ export function detectColorspace(title: string): string {
     text.includes("texture") ||
     text.includes("label") ||
     text.includes("sticker") ||
-    text.includes("wristband") ||
     text.includes("cook book") ||
     text.includes("cover") ||
     text.includes("data sheet") ||
@@ -89,16 +93,28 @@ export function detectColorspace(title: string): string {
     text.includes("calendar") ||
     text.includes("calendars") ||
     text.includes("planner") ||
-    text.includes("packaging") ||
-    text.includes("label")
-
+    text.includes("packaging")
   ) {
     return "CMYK";
   }
 
-  // Default
+  // =========================================
+  // FALLBACK: Detect from template size
+  // =========================================
+
+  // Pixel based size → RGB
+  if (/\bpx\b/.test(size)) {
+    return "RGB";
+  }
+
+  // Inch based size → CMYK
+  if (
+    /\bin\b/.test(size) ||
+    size.includes("inch")
+  ) {
+    return "CMYK";
+  }
+
+  // Unknown
   return "";
 }
-
-
-//Developed by Fazle Rabby © 2026 All Rights Reserved. Version 1.0 Built with the assistance of AI tools for development, debugging, and content generation.
